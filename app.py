@@ -42,8 +42,63 @@ EXERCISE_LIBRARY = {
         "Thrusters",
         "Mountain Climbers",
         "Farmer’s Carry"
+    ],
+    
+     # sport-specific libraries
+    "basketball": [
+        "Lateral Bounds",
+        "Bulgarian Split Squats",
+        "Box Jumps",
+        "Single-Leg Romanian Deadlifts",
+        "Defensive Slides"
+    ],
+    "soccer": [
+        "Single-Leg Squats to Bench",
+        "Reverse Lunges",
+        "Nordic Hamstring Curls",
+        "Copenhagen Planks",
+        "Agility Ladder Drills"
+    ],
+    "running": [
+        "Calf Raises",
+        "Single-Leg Glute Bridges",
+        "Hip Thrusts",
+        "Step-Ups",
+        "Tempo Intervals on Treadmill"
+    ],
+    "tennis": [
+        "Lateral Lunges",
+        "Medicine Ball Rotational Throws",
+        "Single-Arm Dumbbell Rows",
+        "Farmer’s Carry",
+        "Split Squat Jumps"
+    ],
+    "volleyball": [
+        "Squat Jumps",
+        "Overhead Press",
+        "Plank to Push-Up",
+        "Broad Jumps",
+        "Band External Rotations"
     ]
 }
+
+SPORT_KEYWORDS = {
+    "basketball": ["basketball", "bball", "hoops"],
+    "soccer": ["soccer", "football", "futbol"],
+    "running": ["running", "runner", "marathon", "5k", "10k"],
+    "tennis": ["tennis"],
+    "volleyball": ["volleyball", "beach volleyball"],
+}
+
+
+def detect_sport_from_text(text: str):
+    """Return a sport key (e.g., 'basketball') if detected in the user text, else None."""
+    text_lower = text.lower()
+    for sport, keywords in SPORT_KEYWORDS.items():
+        for kw in keywords:
+            if kw in text_lower:
+                return sport
+    return None
 
 
 def sample_exercises(focus_area: str, n: int = 3):
@@ -132,15 +187,15 @@ Please respond with:
 st.set_page_config(page_title="GamePlan – AI Training Companion", page_icon="💪", layout="centered")
 
 st.title("GamePlan 💪")
-st.subheader("An AI-powered training companion for students and amateur athletes")
+st.subheader("An AI-powered training companion")
 
 st.markdown(
     """
-GamePlan creates **quick, personalized workouts** and **motivational coaching**
-based on your time, experience level, and mood.
+Let's get moving with some **quick, personalized workouts** and **motivational coaching**
+on your terms.
 
 Try prompts like:
-- *“Make me a 20-minute leg workout for basketball.”*
+- *“Make me a 20-minute plyometric workout for basketball.”*
 - *“I only have 10 minutes and I feel tired. Give me something light.”*
 - *“Design a 30-minute upper body workout for a beginner.”*
 """
@@ -178,7 +233,7 @@ with st.sidebar:
 st.markdown("---")
 
 user_message = st.text_area(
-    "What kind of workout do you want today? 🧠",
+    "What are we hitting today?",
     placeholder="Example: I play intramural basketball and want a 20-minute leg workout to improve my explosiveness.",
     height=120,
 )
